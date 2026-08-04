@@ -1,0 +1,16 @@
+<img
+  class="player-icon"
+  [width]="size()"
+  [height]="size()"
+  [src]="'img/race/64/' + race() + '-' + gender() + '.png'"
+  [alt]="getRaceName(race())"
+  [title]="getRaceName(race())"
+/>
+<img
+  class="player-icon"
+  [width]="size()"
+  [height]="size()"
+  [src]="'img/class/64/' + charClass() + '.png'"
+  [alt]="getClassName(charClass())"
+  [title]="getClassName(charClass())"
+/>

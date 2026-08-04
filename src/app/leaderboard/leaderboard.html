@@ -1,0 +1,119 @@
+<div class="container-fluid py-4 leaderboard">
+  <header class="mb-4 text-center">
+    <h1 class="page-title">Challenge Modes Leaderboard</h1>
+    <p class="page-subtitle">
+      Who is running {{ serverName }}'s challenges, how far they got, and how fast they made it.
+      <a [href]="challengeModesUrl" target="_blank" rel="noopener">Read the rules</a>
+    </p>
+  </header>
+
+  <app-summary-stats [stats]="stats()" [challenge]="challenge()" />
+
+  <nav class="mb-3">
+    <ul class="nav nav-tabs bracket-tabs">
+      @for (bracket of brackets; track bracket.value) {
+        <li class="nav-item">
+          <button
+            type="button"
+            class="nav-link"
+            [class.active]="bracket.value === challenge()"
+            (click)="selectBracket(bracket.value)"
+          >
+            {{ bracket.shortLabel }}
+          </button>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <div class="row g-3 mb-3 filters">
+    <div class="col-12 col-md-4">
+      <label class="form-label" for="name-filter">Character</label>
+      <input
+        id="name-filter"
+        type="search"
+        class="form-control"
+        placeholder="Search by name…"
+        [value]="nameFilter()"
+        (input)="onNameChange($any($event.target).value)"
+      />
+    </div>
+
+    <div class="col-6 col-md-4">
+      <label class="form-label" for="status-filter">Status</label>
+      <select
+        id="status-filter"
+        class="form-select"
+        [value]="status()"
+        (change)="onStatusChange($any($event.target).value)"
+      >
+        @for (option of statuses; track option) {
+          <option [value]="option">{{ statusLabel(option) }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="col-6 col-md-4">
+      <label class="form-label" for="class-filter">Class</label>
+      <select
+        id="class-filter"
+        class="form-select"
+        [value]="classFilter() ?? ''"
+        (change)="onClassChange($any($event.target).value)"
+      >
+        <option value="">All classes</option>
+        @for (option of classes; track option.id) {
+          <option [value]="option.id">{{ option.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-danger" role="alert">
+      The leaderboard could not be loaded. Please try again in a moment.
+    </div>
+  } @else if (loading() && characters().length === 0) {
+    <div class="text-center py-5 text-muted">
+      <div class="spinner-border" role="status" aria-label="Loading"></div>
+    </div>
+  } @else if (characters().length === 0) {
+    <div class="alert alert-secondary" role="alert">
+      No characters found for {{ bracketLabel() }} with the current filters.
+    </div>
+  } @else {
+    <div class="table-wrapper" [class.is-loading]="loading()">
+      <app-leaderboard-table [characters]="characters()" [challenge]="challenge()" />
+    </div>
+
+    <app-pagination
+      [total]="total()"
+      [pageSize]="pageSize"
+      [page]="page()"
+      (pageChange)="onPageChange($event)"
+    />
+
+    <p class="text-center text-muted small mt-2">
+      {{ total() | number }} character{{ total() === 1 ? '' : 's' }} in {{ bracketLabel() }}
+    </p>
+  }
+
+  <footer class="app-footer text-center small mt-5">
+    <p class="mb-1">
+      Challenge Modes Leaderboard &mdash; Coded by
+      <a href="https://github.com/Helias" target="_blank" rel="noopener noreferrer">
+        <strong>Helias</strong>
+      </a>
+    </p>
+    <p class="mb-0">
+      Challenge modes by
+      <a href="https://github.com/r-o-b-o-t-o/challenge-modes" target="_blank" rel="noopener noreferrer">
+        Roboto
+      </a>
+      &middot; Data from
+      <a href="https://github.com/azerothcore/acore-api" target="_blank" rel="noopener noreferrer">
+        acore-api
+      </a>
+    </p>
+  </footer>
+</div>

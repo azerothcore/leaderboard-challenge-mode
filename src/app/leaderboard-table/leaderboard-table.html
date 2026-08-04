@@ -1,0 +1,53 @@
+<div class="table-responsive rounded-lg-wrapper">
+  <table class="table align-middle leaderboard-table mb-0">
+    <thead>
+      <tr>
+        <th scope="col" class="rank-col">#</th>
+        <th scope="col">Character</th>
+        <th scope="col" class="text-center">Lvl</th>
+        <th scope="col" class="text-end">Played</th>
+        <th scope="col" class="text-center">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (character of characters(); track character.guid; let i = $index) {
+        <tr class="rank-row" [class.row-even]="i % 2 !== 0">
+          <td class="rank-col">
+            @if (character.rank <= 3 && character.completed) {
+              <span class="medal medal-{{ character.rank }}">{{ character.rank }}</span>
+            } @else {
+              {{ character.rank }}
+            }
+          </td>
+          <td>
+            <div class="character-cell">
+              <app-player-icons
+                [charClass]="character.class"
+                [race]="character.race"
+                [gender]="character.gender"
+              />
+              <div>
+                <span class="character-name" [class]="getFaction(character.race)">
+                  {{ character.name }}
+                </span>
+                <span class="character-class">
+                  {{ getRaceName(character.race) }} {{ getClassName(character.class) }}
+                </span>
+              </div>
+            </div>
+          </td>
+          <td class="text-center level-col">{{ character.level }}</td>
+          <td class="text-end played-col">{{ formatPlayedTime(character.played_time) }}</td>
+          <td class="text-center">
+            <span class="badge state-{{ state(character) }}">{{ stateLabel(character) }}</span>
+            @if (character.died_on) {
+              <div class="death-date">
+                {{ deathTooltip(character) }} {{ toDate(character.died_on) | date: 'mediumDate' }}
+              </div>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

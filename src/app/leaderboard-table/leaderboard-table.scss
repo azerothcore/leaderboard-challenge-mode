@@ -1,0 +1,121 @@
+.rounded-lg-wrapper {
+  border: 1px solid var(--panel-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.leaderboard-table {
+  --bs-table-bg: transparent;
+  --bs-table-color: #fff;
+  margin-bottom: 0;
+
+  thead th {
+    background-color: var(--row-tint);
+    color: #fff;
+    font-weight: 600;
+    border-bottom: 0;
+    white-space: nowrap;
+    padding: 0.75rem 1rem;
+  }
+
+  td {
+    border-bottom: 0;
+    padding: 0.75rem 1rem;
+  }
+}
+
+.rank-row {
+  transition: background-color 0.3s ease;
+
+  &.row-even {
+    background-color: var(--row-tint);
+  }
+
+  &:hover {
+    background-color: var(--row-hover) !important;
+  }
+}
+
+.rank-col {
+  width: 4.5rem;
+  color: #8a8a8a;
+  font-variant-numeric: tabular-nums;
+}
+
+.medal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  font-weight: 700;
+  color: #0a0a0a;
+
+  &.medal-1 {
+    background: linear-gradient(140deg, #f5d97a, #c9a227);
+  }
+
+  &.medal-2 {
+    background: linear-gradient(140deg, #dfe3e6, #a3aab0);
+  }
+
+  &.medal-3 {
+    background: linear-gradient(140deg, #e0a271, #a8642f);
+  }
+}
+
+.character-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.character-name {
+  display: block;
+  line-height: 1.2;
+}
+
+.character-class {
+  display: block;
+  font-size: 0.78rem;
+  color: #8a8a8a;
+}
+
+.level-col,
+.played-col {
+  font-variant-numeric: tabular-nums;
+}
+
+.played-col {
+  color: var(--wow-gold);
+  font-weight: 700;
+}
+
+.death-date {
+  font-size: 0.72rem;
+  color: #8a8a8a;
+  margin-top: 0.2rem;
+}
+
+.badge {
+  font-weight: 600;
+
+  &.state-completed {
+    background-color: rgba(76, 175, 80, 0.15);
+    color: #7bd17f;
+    border: 1px solid rgba(76, 175, 80, 0.45);
+  }
+
+  &.state-active {
+    background-color: rgba(26, 103, 244, 0.15);
+    color: #6f9df6;
+    border: 1px solid rgba(26, 103, 244, 0.45);
+  }
+
+  &.state-dead {
+    background-color: rgba(205, 10, 14, 0.15);
+    color: #e2666a;
+    border: 1px solid rgba(205, 10, 14, 0.45);
+  }
+}

@@ -1,0 +1,31 @@
+@if (pageCount() > 1) {
+  <nav aria-label="Leaderboard pages">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="page() === 1">
+        <button type="button" class="page-link" (click)="go(1)" aria-label="First page">«</button>
+      </li>
+      <li class="page-item" [class.disabled]="page() === 1">
+        <button type="button" class="page-link" (click)="go(page() - 1)" aria-label="Previous page">
+          ‹
+        </button>
+      </li>
+
+      @for (item of pages(); track item) {
+        <li class="page-item" [class.active]="item === page()">
+          <button type="button" class="page-link" (click)="go(item)">{{ item }}</button>
+        </li>
+      }
+
+      <li class="page-item" [class.disabled]="page() === pageCount()">
+        <button type="button" class="page-link" (click)="go(page() + 1)" aria-label="Next page">
+          ›
+        </button>
+      </li>
+      <li class="page-item" [class.disabled]="page() === pageCount()">
+        <button type="button" class="page-link" (click)="go(pageCount())" aria-label="Last page">
+          »
+        </button>
+      </li>
+    </ul>
+  </nav>
+}

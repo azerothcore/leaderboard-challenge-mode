@@ -1,0 +1,36 @@
+.stat-tile {
+  background-color: var(--row-tint);
+  border: 1px solid var(--panel-border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+  height: 100%;
+}
+
+.stat-value {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 700;
+  color: var(--wow-gold);
+  line-height: 1.1;
+}
+
+.stat-label {
+  color: #8a8a8a;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 0.25rem;
+}
+
+.stat-completed .stat-value {
+  color: #7bd17f;
+}
+
+.stat-active .stat-value {
+  color: #6f9df6;
+}
+
+.stat-dead .stat-value {
+  color: #e2666a;
+}

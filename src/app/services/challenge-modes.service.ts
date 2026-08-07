@@ -25,6 +25,8 @@ export class ChallengeModesService {
   getLeaderboard(query: LeaderboardQuery): Observable<Paginated<ChallengeModeCharacter>> {
     let params = new HttpParams()
       .set('challenge', query.challenge)
+      .set('sort', query.sort)
+      .set('direction', query.direction)
       .set('page', query.page)
       .set('limit', query.limit);
 

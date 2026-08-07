@@ -83,7 +83,13 @@
     </div>
   } @else {
     <div class="table-wrapper" [class.is-loading]="loading()">
-      <app-leaderboard-table [characters]="characters()" [challenge]="challenge()" />
+      <app-leaderboard-table
+        [characters]="characters()"
+        [challenge]="challenge()"
+        [sort]="sort()"
+        [direction]="direction()"
+        (sortChange)="onSortChange($event)"
+      />
     </div>
 
     <app-pagination

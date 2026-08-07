@@ -15,6 +15,8 @@ export enum LeaderboardSort {
   Rank = 'rank',
   Level = 'level',
   PlayedTime = 'played_time',
+  // Completed, then still going, then fallen.
+  Status = 'status',
   // The date the run ended: completion date for finishers, death date for the fallen.
   Date = 'date',
 }
@@ -28,6 +30,7 @@ export const DEFAULT_SORT_DIRECTION: Record<LeaderboardSort, SortDirection> = {
   [LeaderboardSort.Rank]: SortDirection.Asc,
   [LeaderboardSort.Level]: SortDirection.Desc,
   [LeaderboardSort.PlayedTime]: SortDirection.Asc,
+  [LeaderboardSort.Status]: SortDirection.Desc,
   [LeaderboardSort.Date]: SortDirection.Desc,
 };
 

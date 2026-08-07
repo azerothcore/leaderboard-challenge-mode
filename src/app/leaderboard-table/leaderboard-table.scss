@@ -9,7 +9,7 @@
   --bs-table-bg: transparent;
   --bs-table-color: #fff;
   margin-bottom: 0;
-  min-width: 34rem;
+  min-width: 42rem;
 
   thead th {
     background-color: var(--row-tint);
@@ -94,10 +94,10 @@
   font-weight: 700;
 }
 
-.run-date {
-  font-size: 0.72rem;
+.date-col {
   color: #8a8a8a;
-  margin-top: 0.2rem;
+  font-size: 0.82rem;
+  white-space: nowrap;
 }
 
 .sort-header {

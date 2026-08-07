@@ -2,11 +2,58 @@
   <table class="table align-middle leaderboard-table mb-0">
     <thead>
       <tr>
-        <th scope="col" class="rank-col">#</th>
+        <th scope="col" class="rank-col" [attr.aria-sort]="ariaSort(sortOptions.Rank)">
+          <button
+            type="button"
+            class="sort-header"
+            [class.is-sorted]="sort() === sortOptions.Rank"
+            (click)="sortChange.emit(sortOptions.Rank)"
+          >
+            # <span class="sort-indicator">{{ sortIndicator(sortOptions.Rank) }}</span>
+          </button>
+        </th>
         <th scope="col">Character</th>
-        <th scope="col" class="text-center">Lvl</th>
-        <th scope="col" class="text-end">Played</th>
-        <th scope="col" class="text-center">Status</th>
+        <th scope="col" class="text-center" [attr.aria-sort]="ariaSort(sortOptions.Level)">
+          <button
+            type="button"
+            class="sort-header"
+            [class.is-sorted]="sort() === sortOptions.Level"
+            (click)="sortChange.emit(sortOptions.Level)"
+          >
+            Lvl <span class="sort-indicator">{{ sortIndicator(sortOptions.Level) }}</span>
+          </button>
+        </th>
+        <th scope="col" class="text-end" [attr.aria-sort]="ariaSort(sortOptions.PlayedTime)">
+          <button
+            type="button"
+            class="sort-header"
+            [class.is-sorted]="sort() === sortOptions.PlayedTime"
+            (click)="sortChange.emit(sortOptions.PlayedTime)"
+          >
+            Played <span class="sort-indicator">{{ sortIndicator(sortOptions.PlayedTime) }}</span>
+          </button>
+        </th>
+        <th scope="col" class="text-center" [attr.aria-sort]="ariaSort(sortOptions.Status)">
+          <button
+            type="button"
+            class="sort-header"
+            [class.is-sorted]="sort() === sortOptions.Status"
+            (click)="sortChange.emit(sortOptions.Status)"
+          >
+            Status <span class="sort-indicator">{{ sortIndicator(sortOptions.Status) }}</span>
+          </button>
+        </th>
+        <th scope="col" class="text-end" [attr.aria-sort]="ariaSort(sortOptions.Date)">
+          <button
+            type="button"
+            class="sort-header"
+            title="The date the run ended: completed for finishers, died for the fallen"
+            [class.is-sorted]="sort() === sortOptions.Date"
+            (click)="sortChange.emit(sortOptions.Date)"
+          >
+            Date <span class="sort-indicator">{{ sortIndicator(sortOptions.Date) }}</span>
+          </button>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -40,10 +87,14 @@
           <td class="text-end played-col">{{ formatPlayedTime(character.played_time) }}</td>
           <td class="text-center">
             <span class="badge state-{{ state(character) }}">{{ stateLabel(character) }}</span>
-            @if (character.died_on) {
-              <div class="death-date">
-                {{ deathTooltip(character) }} {{ toDate(character.died_on) | date: 'mediumDate' }}
-              </div>
+          </td>
+          <td class="text-end date-col">
+            @if (runDate(character); as date) {
+              <span [title]="runDateLabel(character) + ' ' + (date | date: 'medium')">
+                {{ date | date: 'mediumDate' }}
+              </span>
+            } @else {
+              &mdash;
             }
           </td>
         </tr>

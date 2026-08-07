@@ -14,6 +14,13 @@ Characters are ranked by completion first, then by the level reached, then by th
 time. Played time is the module's `/played` counter at the character's last level-up, which for a
 completed run is the time it took to reach the level cap. It is the only timing the module records.
 
+Any column header sorts the whole bracket, not just the page on screen. The Date column holds the
+date the run ended: the completion date for finishers, the death date for the fallen. The module
+stores a death date but no completion date, so acore-api reads the latter from the date of the
+character's level milestone achievement — the module marks a run completed on the level-up that
+reaches the cap, so the two coincide. Characters that were hard-deleted after finishing have no
+achievements left and show no date.
+
 ## Requirements
 
 The app reads from [acore-api](https://github.com/azerothcore/acore-api), which needs the

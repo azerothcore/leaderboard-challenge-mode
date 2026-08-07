@@ -11,6 +11,29 @@ export enum ChallengeStatus {
   Dead = 'dead',
 }
 
+export enum LeaderboardSort {
+  Rank = 'rank',
+  Level = 'level',
+  PlayedTime = 'played_time',
+  // Completed, then still going, then fallen.
+  Status = 'status',
+  // The date the run ended: completion date for finishers, death date for the fallen.
+  Date = 'date',
+}
+
+export enum SortDirection {
+  Asc = 'asc',
+  Desc = 'desc',
+}
+
+export const DEFAULT_SORT_DIRECTION: Record<LeaderboardSort, SortDirection> = {
+  [LeaderboardSort.Rank]: SortDirection.Asc,
+  [LeaderboardSort.Level]: SortDirection.Desc,
+  [LeaderboardSort.PlayedTime]: SortDirection.Asc,
+  [LeaderboardSort.Status]: SortDirection.Desc,
+  [LeaderboardSort.Date]: SortDirection.Desc,
+};
+
 export interface ChallengeBracket {
   value: number;
   label: string;
@@ -31,6 +54,7 @@ export interface ChallengeModeCharacter {
   completed: number;
   dead: number;
   died_on: number | null;
+  completed_on: number | null;
   char_deleted: number;
   played_time: number | null;
 }
@@ -53,6 +77,8 @@ export interface LeaderboardQuery {
   status: ChallengeStatus;
   class?: number;
   name?: string;
+  sort: LeaderboardSort;
+  direction: SortDirection;
   page: number;
   limit: number;
 }

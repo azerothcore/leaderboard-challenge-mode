@@ -8,7 +8,10 @@ import { ChallengeModesService } from '../services/challenge-modes.service';
 import {
   ChallengeModeCharacter,
   ChallengeStatus,
+  DEFAULT_SORT_DIRECTION,
+  LeaderboardSort,
   Paginated,
+  SortDirection,
 } from '../types/challenge-modes.types';
 import { BRACKETS, CLASSES } from '../utils/wow';
 import { LeaderboardTableComponent } from '../leaderboard-table/leaderboard-table';
@@ -48,6 +51,8 @@ export class LeaderboardComponent {
   protected readonly status = signal(ChallengeStatus.All);
   protected readonly classFilter = signal<number | null>(null);
   protected readonly nameFilter = signal('');
+  protected readonly sort = signal(LeaderboardSort.Rank);
+  protected readonly direction = signal(DEFAULT_SORT_DIRECTION[LeaderboardSort.Rank]);
   protected readonly page = signal(1);
 
   protected readonly loading = signal(true);
@@ -72,6 +77,8 @@ export class LeaderboardComponent {
             status: this.status(),
             class: this.classFilter() ?? undefined,
             name: this.nameFilter().trim() || undefined,
+            sort: this.sort(),
+            direction: this.direction(),
             page: this.page(),
             limit: PAGE_SIZE,
           })
@@ -100,6 +107,8 @@ export class LeaderboardComponent {
       this.status();
       this.classFilter();
       this.nameFilter();
+      this.sort();
+      this.direction();
       this.page();
 
       this.requests.next();
@@ -128,6 +137,19 @@ export class LeaderboardComponent {
 
   protected onNameChange(value: string): void {
     this.nameFilter.set(value);
+    this.page.set(1);
+  }
+
+  protected onSortChange(sort: LeaderboardSort): void {
+    if (sort === this.sort()) {
+      this.direction.update((current) =>
+        current === SortDirection.Asc ? SortDirection.Desc : SortDirection.Asc,
+      );
+    } else {
+      this.sort.set(sort);
+      this.direction.set(DEFAULT_SORT_DIRECTION[sort]);
+    }
+
     this.page.set(1);
   }
 

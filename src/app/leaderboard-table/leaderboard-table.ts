@@ -1,6 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { ChallengeModeCharacter } from '../types/challenge-modes.types';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import {
+  ChallengeModeCharacter,
+  LeaderboardSort,
+  SortDirection,
+} from '../types/challenge-modes.types';
 import { PlayerIconsComponent } from '../player-icons/player-icons';
 import {
   formatPlayedTime,
@@ -22,6 +26,12 @@ type RunState = 'completed' | 'dead' | 'active';
 export class LeaderboardTableComponent {
   readonly characters = input.required<ChallengeModeCharacter[]>();
   readonly challenge = input.required<number>();
+  readonly sort = input.required<LeaderboardSort>();
+  readonly direction = input.required<SortDirection>();
+
+  readonly sortChange = output<LeaderboardSort>();
+
+  protected readonly sortOptions = LeaderboardSort;
 
   protected readonly formatPlayedTime = formatPlayedTime;
   protected readonly getClassName = getClassName;
@@ -42,13 +52,38 @@ export class LeaderboardTableComponent {
     ];
   }
 
+  // The date the run ended: when it was won for finishers, when the character died
+  // otherwise. Completed runs may also carry a last-death date in challenges where
+  // dying is not final, but the completion is the one worth showing.
+  protected runDate(character: ChallengeModeCharacter): Date | null {
+    const timestamp = character.completed ? character.completed_on : character.died_on;
+
+    return timestamp ? new Date(timestamp * 1000) : null;
+  }
+
   // Only Hardcore runs end permanently on death, so the death date is the run's epitaph
   // there; elsewhere it is just the last time the character died.
-  protected deathTooltip(character: ChallengeModeCharacter): string {
+  protected runDateLabel(character: ChallengeModeCharacter): string {
+    if (character.completed) {
+      return 'Completed on';
+    }
+
     return isHardcore(character.challenge) ? 'Died on' : 'Last died on';
   }
 
-  protected toDate(timestamp: number | null): Date | null {
-    return timestamp ? new Date(timestamp * 1000) : null;
+  protected ariaSort(column: LeaderboardSort): 'ascending' | 'descending' | 'none' {
+    if (this.sort() !== column) {
+      return 'none';
+    }
+
+    return this.direction() === SortDirection.Asc ? 'ascending' : 'descending';
+  }
+
+  protected sortIndicator(column: LeaderboardSort): string {
+    if (this.sort() !== column) {
+      return '';
+    }
+
+    return this.direction() === SortDirection.Asc ? '▲' : '▼';
   }
 }

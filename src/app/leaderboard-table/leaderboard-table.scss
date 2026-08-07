@@ -1,13 +1,15 @@
 .rounded-lg-wrapper {
   border: 1px solid var(--panel-border);
   border-radius: 0.5rem;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .leaderboard-table {
   --bs-table-bg: transparent;
   --bs-table-color: #fff;
   margin-bottom: 0;
+  min-width: 34rem;
 
   thead th {
     background-color: var(--row-tint);
